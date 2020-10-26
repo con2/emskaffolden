@@ -9,9 +9,9 @@ COMPILED_FILENAME_RE = re.compile(r'.compiled.(?P<extension>yml|yaml|json)$')
 
 def get_output_filename(template_filename, output_format):
     if TEMPLATE_FILENAME_RE.search(template_filename):
-        return TEMPLATE_FILENAME_RE.sub(f".compiled.{output_format}", template_filename)
+        return TEMPLATE_FILENAME_RE.sub(".compiled." + output_format, template_filename)
     else:
-        raise ValueError(f"template filename does not end in .in.yml or in.yaml: {template_filename}")
+        raise ValueError("template filename does not end in .in.yml or in.yaml: " + template_filename)
 
 
 def get_template_filename(compiled_filename):
@@ -19,9 +19,9 @@ def get_template_filename(compiled_filename):
     if match:
         extension = match.group("extension")
         extension = "yaml" if extension == "json" else extension
-        return COMPILED_FILENAME_RE.sub(f".in.{extension}", compiled_filename)
+        return COMPILED_FILENAME_RE.sub(".in." + extension, compiled_filename)
     else:
-        raise ValueError(f"compiled filename does not end in .compiled.yml or compiled.yaml: {compiled_filename}")
+        raise ValueError("compiled filename does not end in .compiled.yml or compiled.yaml: " + compiled_filename)
 
 
 @contextmanager

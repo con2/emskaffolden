@@ -15,7 +15,7 @@ Emskaffolden is opinionated: it may not suit everyone's workflow. If you find Em
 
 ## Installation
 
-Install [Skaffold](https://skaffold.dev/docs/install/) and [Python 3.6+](https://wiki.python.org/moin/BeginnersGuide/Download). Then install `emskaffolden` using Pip:
+Install [Skaffold](https://skaffold.dev/docs/install/) and [Python 3.5+](https://wiki.python.org/moin/BeginnersGuide/Download). Then install `emskaffolden` using Pip:
 
     python3 -m pip install emskaffolden
 

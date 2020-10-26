@@ -11,7 +11,9 @@ def discover_output_files(compiled_skaffold_filename):
     stack = []
     found = []
 
-    print(f"Discovering output files from {compiled_skaffold_filename}:", file=sys.stderr)
+    print("Discovering output files from {compiled_skaffold_filename}:".format(
+        compiled_skaffold_filename=compiled_skaffold_filename,
+    ), file=sys.stderr)
 
     with open(compiled_skaffold_filename, "r", encoding="UTF-8") as config_file:
         stack.extend(yaml.safe_load_all(config_file))
@@ -21,7 +23,7 @@ def discover_output_files(compiled_skaffold_filename):
 
         if isinstance(current, str):
             if COMPILED_FILENAME_RE.search(current):
-                print(f" - {current}", file=sys.stderr)
+                print(" - " + current, file=sys.stderr)
                 found.append(current)
         elif isinstance(current, Mapping):
             stack.extend(current.values())

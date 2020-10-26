@@ -43,13 +43,13 @@ def main(args=None):
     with var_files_if_exist(
         "kubernetes/default.vars.yml",
         "kubernetes/default.vars.yaml",
-        f"kubernetes/{args.environment_name}.vars.yml",
-        f"kubernetes/{args.environment_name}.vars.yaml",
+        "kubernetes/{args.environment_name}.vars.yml".format(args=args),
+        "kubernetes/{args.environment_name}.vars.yaml".format(args=args),
     ) as default_var_files:
         var_files = default_var_files + list(args.var_files)
         print("Using var files:", file=sys.stderr)
         for var_file in var_files:
-            print(f" - {var_file.name}")
+            print(" - {var_file.name}".format(var_file=var_file))
 
         variable_sources = [{ "environment": args.environment_name }] + var_files
 
@@ -63,7 +63,10 @@ def main(args=None):
         template_format=args.template_format,
         output_format=args.output_format,
     )
-    print(f" - {args.skaffold_file} -> {compiled_skaffold_filename}", file=sys.stderr)
+    print(" - {args.skaffold_file} -> {compiled_skaffold_filename}".format(
+        args=args,
+        compiled_skaffold_filename=compiled_skaffold_filename,
+    ), file=sys.stderr)
 
     output_filenames = discover_output_files(compiled_skaffold_filename)
 
@@ -75,7 +78,10 @@ def main(args=None):
             output_format=args.output_format,
             output_filename=output_filename,
         )
-        print(f" - {template_filename} -> {output_filename}", file=sys.stderr)
+        print(" - {template_filename} -> {output_filename}".format(
+            template_filename=template_filename,
+            output_filename=output_filename,
+        ), file=sys.stderr)
 
     if args.skaffold_args:
         invoke_skaffold(args.skaffold_args, compiled_skaffold_filename)
