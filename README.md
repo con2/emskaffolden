@@ -10,7 +10,7 @@ Emskaffolden is opinionated: it may not suit everyone's workflow. If you find Em
 
 ### Why wrap Skaffold instead of implementing Emrichen support for Skaffold?
 
-1. Emrichen is a relatively unknown templating tool, so they'd probably never accept a PR integrating Emrichen into Skaffold.
+1. Emrichen is a relatively unknown templating tool, so they'd probably never accept a PR integrating Emrichen into Skaffold. I wouldn't ;)
 2. This way we can support any of the Skaffold deploy methods using Emrichen, not just `kubectl`. You can even go wild and generate Kustomize or even Helm YAML using Emrichen! Err, not sure why you'd want to. But you can.
 
 ## Installation
@@ -49,6 +49,14 @@ A `kubernetes/default.vars.yaml` var file is loaded from if present.
 Environment-specific files are loaded from `kubernetes/` if present. The default environment is called `development`, corresponding to `kubernetes/development.vars.yaml`, and the environment can be switched with `-E <env name>`.
 
 If your environment specific var files are elsewhere, use `-f path/to/foo.vars.yaml` instead.
+
+### Let Skaffold manage image tags
+
+Skaffold has first-in-class support for [generating immutable image tags](https://skaffold.dev/docs/pipeline-stages/taggers/).
+
+Just use a simple name for first-party images in Deployments etc., such as `kompassi` or `edegal-static`. Skaffold will automatically use the Git commit hash as the image tag.
+
+Finally, add `--default-repo` or `SKAFFOLD_DEFAULT_REPO` to [prefix the image name with your private registry](https://skaffold.dev/docs/environment/image-registries/).
 
 ### Workflow
 
