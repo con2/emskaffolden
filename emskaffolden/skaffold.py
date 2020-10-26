@@ -37,4 +37,8 @@ def invoke_skaffold(skaffold_args, skaffold_config_file):
     print("Invoking skaffold with:", skaffold_args, file=sys.stderr)
     print("", file=sys.stderr)
 
-    os.execvp("skaffold", skaffold_args)
+    try:
+        os.execvp("skaffold", skaffold_args)
+    except FileNotFoundError:
+        print("ERROR: skaffold not found on PATH (have you installed it?)", file=sys.stderr)
+        raise
