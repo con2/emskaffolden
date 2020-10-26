@@ -2,7 +2,7 @@
 
 [Emrichen](https://github.com/con2/emrichen) is a template engine that takes in templates written in YAML or JSON, processes tags that do things like variable substitution, and outputs YAML or JSON. Emrichen is especially powerful for templating Kubernetes manifests.
 
-[Skaffold](https://skaffold.dev/) is a developer tool that handles the workflow for building, pushing and deploying your application, allowing you to focus on what matters most: writing code.
+[Skaffold](https://skaffold.dev/) is a developer tool that handles the workflow for building, pushing and deploying your application, allowing you to focus on what matters most: writing code. Skaffold is especially good at three things: doing everyday development with Kubernetes, providing a coherent way to do image tagging in CI and watching for Kubernetes deployments to complete in CD.
 
 **Emskaffolden** combines Emrichen and Skaffold by compiling the Skaffold config file and Kubernetes templates with Emrichen and then invoking Skaffold.
 
