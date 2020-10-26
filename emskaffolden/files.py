@@ -15,7 +15,8 @@ def get_output_filename(template_filename, output_format):
 
 
 def get_template_filename(compiled_filename):
-    if match := COMPILED_FILENAME_RE.search(compiled_filename):
+    match = COMPILED_FILENAME_RE.search(compiled_filename)
+    if match:
         extension = match.group("extension")
         extension = "yaml" if extension == "json" else extension
         return COMPILED_FILENAME_RE.sub(f".in.{extension}", compiled_filename)
