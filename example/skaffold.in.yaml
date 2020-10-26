@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta6
+kind: Config
+metadata:
+  name: !Var project_name
+
+build:
+  local:
+    useBuildkit: true
+  artifacts:
+    - image: !Var project_name
+      context: .
+
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/deployment.compiled.yaml
