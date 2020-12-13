@@ -108,3 +108,7 @@ venv.bak/
 
 # Pip metadata
 pip-wheel-metadata
+
+# emskaffolden
+*.compiled.yaml
+*.local.yaml

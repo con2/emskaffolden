@@ -64,7 +64,7 @@ There is no `emskaffolden init`. Just copy over files from `example/` and edit t
 
 Use `emskaffolden dev` as your everyday development environment – either locally using Docker Desktop, or in the Kubernetes environment of your choice.
 
-Use `emskaffolden run` in your CI/CD pipeline, or split it into `emskaffolden build -- --output-file=build.json` and `emskaffolden deploy -- -a build.json`.
+Use `emskaffolden run` in your CI/CD pipeline, or split it into `emskaffolden build -- --file-output=build.json` and `emskaffolden deploy -- -a build.json`.
 
 `*.compiled.yaml` files should not be committed into Git. The `.gitignore` in `example/` excludes them.
 

@@ -23,6 +23,14 @@ def augment_parser(parser):
     )
 
     parser.add_argument(
+        '--builtin-template',
+        '-T',
+        type=str,
+        nargs='?',
+        help="Instead of kubernetes/template.in.yaml, use one of the built-in templates",
+    )
+
+    parser.add_argument(
         'skaffold_args',
         nargs='*',
         type=str,

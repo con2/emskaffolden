@@ -1,0 +1,25 @@
+djangoapp_secret_managed: false
+djangoapp_admins:
+  - Santtu Pajukanta <santtu@pajukanta.fi>
+djangoapp_allowed_hosts:
+  - !Var ingress_public_hostname
+  - infotv-insecure.tracon.fi
+djangoapp_extra_env:
+  - name: INFOKALA_DEFAULT_EVENT
+    value: tracon2021
+
+ingress_public_hostname: infotv.tracon.fi
+
+postgres_managed: false
+postgres_hostname: siilo.tracon.fi
+postgres_database: infotv
+postgres_username: infotv
+postgres_ssl: true
+
+djangoapp_setup_should_run: true
+
+djangoapp_smtp_server: sr1.pahaip.fi
+djangoapp_smtp_default_from_email: root@tracon.fi
+
+ingress_letsencrypt_enabled: true
+ingress_letsencrypt_cluster_issuer: letsencrypt-prod

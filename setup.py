@@ -18,7 +18,7 @@ setup(
     author_email='santtu@pajukanta.fi',
     url='http://github.com/con2/emskaffolden',
     packages = find_packages(exclude=["tests"]),
-    zip_safe=True,
+    zip_safe=False,
     entry_points={
         'console_scripts': [
             'emskaffolden = emskaffolden.__main__:main',

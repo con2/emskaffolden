@@ -1,5 +1,6 @@
 import os
 import sys
+from pkg_resources import resource_filename
 
 from emrichen.cli import get_parser
 from emrichen.context import Context
@@ -26,6 +27,10 @@ def render(context, template_filename, template_format, output_format, output_fi
     return output_filename
 
 
+def get_builtin_template(*parts):
+    return resource_filename(__name__, os.path.join('builtin-templates', *parts))
+
+
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
@@ -40,12 +45,19 @@ def main(args=None):
         getattr(args.output_file, 'name', None), RENDERERS, 'yaml'
     )
 
-    with var_files_if_exist(
+    var_filenames = [
         "kubernetes/default.vars.yml",
         "kubernetes/default.vars.yaml",
         "kubernetes/{args.environment_name}.vars.yml".format(args=args),
         "kubernetes/{args.environment_name}.vars.yaml".format(args=args),
-    ) as default_var_files:
+    ]
+
+    if args.builtin_template:
+        var_filenames = [
+            get_builtin_template(args.builtin_template, "default.vars.yaml")
+        ] + var_filenames
+
+    with var_files_if_exist(*var_filenames) as default_var_files:
         var_files = default_var_files + list(args.var_files)
         print("Using var files:", file=sys.stderr)
         for var_file in var_files:
@@ -59,20 +71,34 @@ def main(args=None):
         context = Context(*variable_sources, **override_variables)
 
     print("Compiling Skaffold configuration file:", file=sys.stderr)
-    compiled_skaffold_filename = render(context, args.skaffold_file,
+    skaffold_file = (
+        get_builtin_template(args.builtin_template, 'skaffold.in.yaml')
+        if args.builtin_template and not os.path.exists(args.skaffold_file)
+        else args.skaffold_file
+    )
+    compiled_skaffold_filename = render(context, skaffold_file,
         template_format=args.template_format,
         output_format=args.output_format,
+        output_filename='skaffold.compiled.yaml',
     )
-    print(" - {args.skaffold_file} -> {compiled_skaffold_filename}".format(
-        args=args,
+    print(" - {skaffold_file} -> {compiled_skaffold_filename}".format(
+        skaffold_file=skaffold_file,
         compiled_skaffold_filename=compiled_skaffold_filename,
     ), file=sys.stderr)
 
-    output_filenames = discover_output_files(compiled_skaffold_filename)
+    if args.builtin_template:
+        output_mapping = {
+            'kubernetes/template.compiled.yaml': get_builtin_template(args.builtin_template, 'template.in.yaml')
+        }
+    else:
+        output_mapping = {
+            output_filename: get_template_filename(output_filename)
+            for output_filename in discover_output_files(compiled_skaffold_filename)
+        }
 
     print("Compiling template files:", file=sys.stderr)
-    for output_filename in output_filenames:
-        template_filename = get_template_filename(output_filename)
+
+    for output_filename, template_filename in output_mapping.items():
         render(context, template_filename,
             template_format=args.template_format,
             output_format=args.output_format,
