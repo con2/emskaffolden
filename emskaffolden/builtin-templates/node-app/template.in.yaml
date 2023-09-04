@@ -1,0 +1,46 @@
+# nodeapp deployment using Kubernetes
+# usage: emrichen -f default.vars.yaml kubernetes.in.yaml | kubectl apply -n nodeapp -f -
+
+
+##############
+# POSTGRESQL #
+##############
+---
+!If
+  test: !Var postgres_managed
+  then: !Include postgres/service.in.yaml
+
+---
+!If
+  test: !Var postgres_managed
+  then: !Include postgres/deployment.in.yaml
+
+---
+!If
+  test: !Var postgres_managed
+  then: !Include postgres/pvc.in.yaml
+
+---
+!If
+  test: !Var postgres_managed
+  then: !Include postgres/secret.in.yaml
+
+
+#########################
+# node (Web server) #
+#########################
+---
+!Include node/service.in.yaml
+---
+!Include node/deployment.in.yaml
+---
+!If
+  test: !Var nodeapp_secret_managed
+  then: !Include node/secret.in.yaml
+
+
+###########
+# INGRESS #
+###########
+---
+!Include ingress.in.yaml
