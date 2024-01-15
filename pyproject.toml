@@ -1,4 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "emskaffolden"
+dynamic = ["version"]
+description = "Use Skaffold with Emrichen templates"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Santtu Pajukanta", email = "santtu@pajukanta.fi" },
+]
+dependencies = [
+    "emrichen",
+    "jsonpath-rw~=1.4.0",
+    "pyaml",
+    "PyYAML",
+]
+
+[project.scripts]
+emsk = "emskaffolden.__main__:main"
+emskaffolden = "emskaffolden.__main__:main"
+
+[project.urls]
+Homepage = "http://github.com/con2/emskaffolden"
+
+[tool.hatch.version]
+path = "emskaffolden/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+include = [
+    "/emskaffolden",
+]
+
 [tool.black]
 line-length = 105
 py36 = true
 skip-string-normalization = true
+
+[tool.pytest.ini_options]
+addopts = ["--verbose"]
+python_files = "tests/*.py"

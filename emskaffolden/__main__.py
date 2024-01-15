@@ -1,6 +1,5 @@
 import os
 import sys
-from pkg_resources import resource_filename
 
 from emrichen.cli import get_parser
 from emrichen.context import Context
@@ -28,7 +27,10 @@ def render(context, template_filename, template_format, output_format, output_fi
 
 
 def get_builtin_template(*parts):
-    return resource_filename(__name__, os.path.join('builtin-templates', *parts))
+    builtin_templates_dir = os.path.join(os.path.dirname(__file__), 'builtin-templates')
+    if not os.path.exists(builtin_templates_dir):
+        raise RuntimeError("Builtin templates not found")
+    return os.path.join(builtin_templates_dir, *parts)
 
 
 def main(args=None):
